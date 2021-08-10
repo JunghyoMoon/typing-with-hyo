@@ -64,9 +64,9 @@ const startTyping = () => {
 const useUpdateQuote = (quotes) => {
   const [currentQuot, setCurrentQuot] = useState([]);
   const [trigger, setTrigger] = useState(0);
-  let [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const update = () => {
-    setCurrentIndex(currentIndex++);
+    setCurrentIndex(currentIndex + 1);
     setTrigger(Date.now());
   }
   useEffect(() => {
