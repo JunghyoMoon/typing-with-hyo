@@ -1,7 +1,7 @@
-import React, {Fragment, useRef, useState, useEffect} from "react";
-import styled, {createGlobalStyle} from "styled-components";
+import React, { Fragment, useRef, useState, useEffect } from "react";
+import styled, { createGlobalStyle } from "styled-components";
 import reset from "styled-reset";
-import {quotes} from "./quotes.js";
+import { quotes } from "./quotes.js";
 
 const GlobalStyles = createGlobalStyle`
   ${reset}
@@ -14,29 +14,29 @@ const GlobalStyles = createGlobalStyle`
 `;
 
 const Container = styled.div`
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+	width: 100%;
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 `;
 
 const Input = styled.input`
-  width: 60%;
-  padding: 5px 0px;
-  font-size: 25px;
-  border: none;
-  border-bottom: 2px solid black;
-  text-align: center;
-  &:focus {
-    outline: none;
-    text-align: left;
-  }
+	width: 60%;
+	padding: 5px 0px;
+	font-size: 25px;
+	border: none;
+	border-bottom: 2px solid black;
+	text-align: center;
+	&:focus {
+		outline: none;
+		text-align: left;
+	}
 `;
 
 const CurrentQuote = styled.div`
-  margin-bottom: 30px;
+	margin-bottom: 30px;
 `;
 
 const NextQuote = styled.span``;
@@ -45,50 +45,48 @@ let currentQuoteNum = 0;
 let error = 0;
 
 const checkEachCharacter = (e) => {
-  console.log(e.target.value);
-}
+	console.log(e.target.value);
+};
 
-const resetValues = () => {
+const resetValues = () => {};
 
-}
-
-const updateQuote = () => {
-
-}
+const updateQuote = () => {};
 
 const startTyping = () => {
-  resetValues();
-  updateQuote();
-}
+	resetValues();
+	updateQuote();
+};
 
 const useUpdateQuote = (quotes) => {
-  const [currentQuot, setCurrentQuot] = useState([]);
-  const [trigger, setTrigger] = useState(0);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const update = () => {
-    setCurrentIndex(currentIndex + 1);
-    setTrigger(Date.now());
-  }
-  useEffect(() => {
-    console.log(currentIndex);
-    setCurrentQuot(quotes[currentIndex].split(""));
-  }, [trigger]);
+	const [currentQuot, setCurrentQuot] = useState([]);
+	const [currentIndex, setCurrentIndex] = useState(0);
+	const update = () => {
+		setCurrentIndex(currentIndex + 1);
+	};
+	useEffect(() => {
+		console.log(currentIndex);
+		setCurrentQuot(quotes[currentIndex].split(""));
+	}, [currentIndex]);
 
-  return {currentQuot, update};
-}
+	return { currentQuot, update };
+};
 
 const App = () => {
-  const {currentQuot, update} = useUpdateQuote(quotes);
-  return (
-    <Fragment>
-      <GlobalStyles />
-      <Container>
-        <CurrentQuote>{currentQuot.map(_ => <span>{_}</span>)}</CurrentQuote>
-        <Input placeholder="start typing.." onInput={update} />
-        <NextQuote></NextQuote>
-    </Container>
-    </Fragment>
-  );
-}
+	const { currentQuot, update } = useUpdateQuote(quotes);
+	return (
+		<Fragment>
+			<GlobalStyles />
+			<Container>
+				<CurrentQuote>
+					{currentQuot.map((_) => (
+						<span>{_}</span>
+					))}
+				</CurrentQuote>
+				<Input placeholder="start typing.." onInput={update} />
+				<NextQuote></NextQuote>
+			</Container>
+		</Fragment>
+	);
+};
 
 export default App;
