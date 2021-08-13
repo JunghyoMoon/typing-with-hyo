@@ -41,38 +41,48 @@ const CurrentQuote = styled.div`
 
 const NextQuote = styled.span``;
 
-let currentQuoteNum = 0;
-let error = 0;
+const useCheck = (currentQuot) => {
+	if (!currentQuot || typeof currentQuot !== "object") return;
+	let counter = 0;
+	const checkEachCharacter = (e) => {
+		const {
+			target: { value },
+		} = e;
+		console.log(counter);
+		if (value.slice(-1) !== currentQuot[counter]) {
+			console.log(currentQuot[counter]);
+			console.log(value.slice(-1));
+		}
+		counter = counter < currentQuot.length - 1 ? ++counter : 0;
+	};
 
-const checkEachCharacter = (e) => {
-	console.log(e.target.value);
+	return checkEachCharacter;
 };
 
 const resetValues = () => {};
-
-const updateQuote = () => {};
-
-const startTyping = () => {
-	resetValues();
-	updateQuote();
-};
 
 const useUpdateQuote = (quotes) => {
 	const [currentQuot, setCurrentQuot] = useState([]);
 	const [currentIndex, setCurrentIndex] = useState(0);
 	const update = () => {
-		setCurrentIndex(currentIndex + 1);
+		if (currentIndex >= quotes.length - 1) {
+			setCurrentIndex(0);
+		} else {
+			setCurrentIndex(currentIndex + 1);
+		}
 	};
 	useEffect(() => {
-		console.log(currentIndex);
 		setCurrentQuot(quotes[currentIndex].split(""));
 	}, [currentIndex]);
 
 	return { currentQuot, update };
 };
 
+const useStart = () => {};
+
 const App = () => {
 	const { currentQuot, update } = useUpdateQuote(quotes);
+	const check = useCheck(currentQuot);
 	return (
 		<Fragment>
 			<GlobalStyles />
@@ -82,7 +92,7 @@ const App = () => {
 						<span>{_}</span>
 					))}
 				</CurrentQuote>
-				<Input placeholder="start typing.." onInput={update} />
+				<Input placeholder="start typing.." onInput={check} />
 				<NextQuote></NextQuote>
 			</Container>
 		</Fragment>
